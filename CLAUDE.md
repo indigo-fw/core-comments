@@ -20,27 +20,11 @@ Polymorphic threaded comment system that attaches to any content type.
 
 ## Router Endpoints
 
-| Endpoint | Access | Purpose |
-|---|---|---|
-| `comments.list` | public | Approved comments for a target (cursor pagination) |
-| `comments.count` | public | Approved comment count for a target |
-| `comments.countMany` | public | Batch counts for grids (max 100 IDs) |
-| `comments.create` | protected | Post comment (auto-approved) |
-| `comments.update` | protected | Edit own comment |
-| `comments.delete` | protected | Soft-delete own comment |
-| `comments.adminList` | content editors | Paginated with status/type/search filters |
-| `comments.updateStatus` | content editors | Moderate (approve/reject/spam) |
-| `comments.adminDelete` | content editors | Permanent delete |
-| `comments.statusCounts` | content editors | Counts per status for filter tabs |
+Live list: `routers/comments.ts` (JSDoc per procedure → `src/generated/procedure-docs.ts` / MCP `search_tools`). Non-obvious semantics only: `countMany` caps at 100 IDs; `create` auto-approves logged-in users; public endpoints return approved-only.
 
 ## Components
 
-| Component | Location | Purpose |
-|---|---|---|
-| `CommentSection` | `components/CommentSection.tsx` | Main public-facing component. Props: `targetType`, `targetId`. Renders comment form (if logged in), threaded comment list, and count header. Imports CSS. |
-| `CommentForm` | `components/CommentForm.tsx` | Textarea + submit. Props: `targetType`, `targetId`, optional `parentId`, `onSubmitted`, `onCancel`, `autoFocus`. Uses `comments.create` mutation. Max 5000 chars. |
-| `CommentItem` | `components/CommentItem.tsx` | Single comment with avatar, name, relative time, content, reply/edit/delete actions. Recursively renders replies up to depth 3. |
-| `CommentCount` | `components/CommentCount.tsx` | Inline count badge. Props: `targetType`, `targetId`, optional `className`. |
+Live list: `components/` (JSDoc'd props; map with `bun run indigo map core-comments`). Non-obvious: `CommentSection` imports the module CSS itself; `CommentItem` renders replies recursively to depth 3; `CommentForm` caps content at 5000 chars.
 
 ## Styles
 
